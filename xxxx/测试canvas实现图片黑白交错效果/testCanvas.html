@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test canvas</title>
+</head>
+<style>
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	ul,li{
+		text-decoration: none;
+		list-style: none;
+	}
+	html,body{
+		height: 100%;
+	}
+	.outerContainer{
+		height: 100%;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	.pageHead{
+		height: 100%;
+		position: relative;
+	}
+	.colorfulImg, .myCanvas, .headCont{
+		width: 100%;
+		height: 100%;
+	}
+	.myCanvas,.colorfulImg{
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 100;
+	}
+	.myCanvas{
+		background: transparent;
+	}
+	.colorfulImg{
+		background: url("./back1.png");    
+		background-repeat: no-repeat;
+    	background-size: 100% 100%;
+	}
+	.headCont{
+		background: transparent;
+		overflow: hidden;
+		position: relative;
+		z-index: 999;
+		color: #FAFAFA;
+		margin: 0 auto;
+		width: 80%;
+	}
+	.headCont>header{
+		display: flex;
+		justify-content: space-between;
+		padding-top: 20px;
+	}
+	.headCont>header>h2{
+		font-size: 40px;
+	}
+	.headCont>header>ul{
+		height: 60px;
+	}
+	.headCont>header>ul>li{
+		float: left;
+		padding: 5px 10px;
+		font-size: 18px;
+		line-height: 60px;
+		cursor: pointer;
+	}
+	/*.headerCont*/
+	.aboutMyself{
+		background: #FFFFFF;
+		height: 500px;
+	}
+</style>
+<body>
+	<div class="outerContainer">
+
+		
+		<div class="pageHead">
+			<div class="colorfulImg"></div>
+			<canvas id="myCanvas" class="myCanvas"></canvas>
+			<div class="headCont">
+				<header>
+					<h2>Personal <span style="font-size: 20px">view</span></h2>
+					<ul>
+						<li>主页</li>
+						<li>关于我</li>
+						<li>工作经历</li>
+						<li>项目经验</li>
+						<li>自我评价</li>
+						<li>联系方式</li>
+					</ul>
+				</header>
+				<section class="cont">
+					<div class="introSelf">
+						<h3>hello~</h3>
+						<p></p>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<div class="aboutMyself">
+			<p>about myself</p>
+		</div>
+
+	</div>
+</body>
+<script type="text/javascript">
+	window.onload = ()=>{
+
+		function getDPI() {
+		    var arrDPI = new Array();
+		    if (window.screen.deviceXDPI != undefined) {
+		        arrDPI[0] = window.screen.deviceXDPI;
+		        arrDPI[1] = window.screen.deviceYDPI;
+		    }
+		    else {
+		        var tmpNode = document.createElement("DIV");
+		        tmpNode.style.cssText = "width:1in;height:1in;position:absolute;left:0px;top:0px;z-index:99;visibility:hidden";
+		        document.body.appendChild(tmpNode);
+		        arrDPI[0] = parseInt(tmpNode.offsetWidth);
+		        arrDPI[1] = parseInt(tmpNode.offsetHeight);
+		        tmpNode.parentNode.removeChild(tmpNode);
+		    }
+		    // console.log(arrDPI)
+		    return arrDPI;
+		}
+		console.log(getDPI());
+
+		// 灰色图片
+		const imgGrey = (dataObj,level = 3) => {
+			let imdata = dataObj.data;
+			let r,g,b,avg;
+			// 把图片变为灰色
+			for(var p = 0,len = imdata.length; p< len; p += 4){
+				r = imdata [p];
+				g = imdata [p + 1];
+				b = imdata [p + 2];
+				avg = Math.floor((r + g + b ) / level);
+				if(avg >= 255){
+					avg = 255
+				}
+				imdata [p] = imdata [p + 1] = imdata [p + 2] = avg;
+			}
+		}
+
+		const clearCircleArea = (ctx,x,y,r) => {    //(x,y)为要清除的圆的圆心，r为半径，cxt为context
+		   let stepClear=1;//别忘记这一步  
+		   clearArc(x,y,r);
+		   function clearArc(x,y,radius){
+		      let calcWidth=radius-stepClear;  
+		      let calcHeight=Math.sqrt(radius*radius-calcWidth*calcWidth);  
+
+		      let posX=x-calcWidth;  
+		      let posY=y-calcHeight;  
+		                      
+		      let widthX=2*calcWidth;  
+		      let heightY=2*calcHeight;  
+		                      
+		      if(stepClear<=radius){  
+		         ctx.clearRect(posX,posY,widthX,heightY);  
+		         stepClear+=1;  
+		         clearArc(x,y,radius);  
+		      }  
+		    }  
+		}
+
+		let canvasDom = document.querySelector("#myCanvas");
+		let canvasDomWidth = myCanvas.offsetWidth;
+		let canvasDomHeight = myCanvas.offsetHeight;
+		canvasDom.width = canvasDomWidth;
+		canvasDom.height = canvasDomHeight;
+
+		let ctx = canvasDom.getContext("2d");
+
+		let cImg = new Image();
+		cImg.src = "./back.png";
+		// cImg.setAttribute("crossOrigin",'Anonymous');
+
+		// 渲染图片
+		cImg.onload = () => {
+			ctx.drawImage(cImg,0,0,canvasDomWidth,canvasDomHeight);
+			// let map = ctx.getImageData(0,0,canvasDomWidth,canvasDomHeight);
+			// imgGrey(map);
+			// ctx.putImageData(map,0,0);
+			ctx.globalCompositeOperation = 'destination-out';
+			// 以线条方式随机清除canvas
+			let startPos = {
+				x:100,
+				y:300,
+			} 
+			for(let i = 0; i < 100; i++){
+				let randomPointSize = {x : 2, y : 2}
+				clearCircleArea(ctx,startPos.x,startPos.y,200)
+				startPos.x -= 5;
+				startPos.y += 5;
+			}
+		}
+
+	}
+</script>
+</html>
