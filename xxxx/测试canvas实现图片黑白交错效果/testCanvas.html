@@ -43,6 +43,17 @@
 		background-repeat: no-repeat;
     	background-size: 100% 100%;
 	}
+	.colorfulImg>img{
+		width: 600px;
+		height: 300px;
+		position: absolute;
+		top: 50%;
+		right:-100px;
+		margin-top: -150px;
+		transform: rotate(-14deg);
+		padding: 20px;
+    	background: #efefef;
+	}
 	.headCont{
 		background: transparent;
 		overflow: hidden;
@@ -70,6 +81,27 @@
 		line-height: 60px;
 		cursor: pointer;
 	}
+	.cont{
+		height: 100%;
+	}
+	#introSelf{
+	    background: rgba(255,255,255,.6);
+	    width: 65%;
+	    margin-top: 60px;
+	    height: 75%;
+	    box-sizing: border-box;
+	    padding: 40px;
+	    color: #666;
+	}
+	#introSelf p{
+		height: 40px;
+	    line-height: 40px;
+	    font-size: 20px;
+	    text-indent: 40px;
+	}
+	#introSelf h2{
+	    margin-bottom: 20px;
+	}
 	/*.headerCont*/
 	.aboutMyself{
 		background: #FFFFFF;
@@ -81,7 +113,9 @@
 
 		
 		<div class="pageHead">
-			<div class="colorfulImg"></div>
+			<div class="colorfulImg">
+				<img src="./img.png" alt="">
+			</div>
 			<canvas id="myCanvas" class="myCanvas"></canvas>
 			<div class="headCont">
 				<header>
@@ -96,10 +130,7 @@
 					</ul>
 				</header>
 				<section class="cont">
-					<div class="introSelf">
-						<h3>hello~</h3>
-						<p></p>
-					</div>
+					<div id="introSelf"></div>
 				</section>
 			</div>
 		</div>
@@ -112,6 +143,16 @@
 </body>
 <script type="text/javascript">
 	window.onload = ()=>{
+
+		let domArr = [
+			{type:'h2',text:'你好,请先让我做一个自我介绍'},
+			{type:'p',text:'姓名 : panyang'},
+			{type:'p',text:'年龄 : xx'},
+			{type:'p',text:'职业 : 前端开发'},
+			{type:'p',text:'xxxx : 巴拉巴拉'},
+			{type:'p',text:'xxx : 巴拉巴拉...'},
+			{type:'p',text:'xxxx : 巴拉巴拉'},
+		];
 
 		function getDPI() {
 		    var arrDPI = new Array();
@@ -130,7 +171,7 @@
 		    // console.log(arrDPI)
 		    return arrDPI;
 		}
-		console.log(getDPI());
+		// console.log(getDPI());
 
 		// 灰色图片
 		const imgGrey = (dataObj,level = 3) => {
@@ -170,6 +211,53 @@
 		    }  
 		}
 
+		// 生成一个临时路径
+		class tempPath{
+
+			// 斜率
+			constructor(slope,halfRadius,randomLength){
+				this.slope = slope;
+				this.halfRadius = halfRadius;
+				this.randomLength = randomLength;
+				this.instance = null;
+				this.superimposed = 0;
+				this.onlyB = void 0;
+			}
+
+			// static createTempPath(slope,halfRadius,randomLength){
+			// 	if(this.instance){
+			// 		this.instance.slope = slope;
+			// 		this.instance.halfRadius = halfRadius;
+			// 		this.instance.randomLength = randomLength;
+			// 		return this.instance;
+			// 	}
+			// 	return this.instance = new tempPath(slope,halfRadius,randomLength);
+			// }
+
+			// 生成下一个点位置
+			generateNextPos(posx,posy){
+
+				if(typeof posx !== "number" || 
+				   typeof posy !== "number" ||
+				   typeof this.slope !== "number" ||
+				   typeof this.halfRadius !== "number"
+				) return {posx:void 0,posy:void 0}
+
+				if(!this.onlyB){
+					this.onlyB = posy - (this.slope * posx);
+				}
+				
+				let resultX = posx + this.halfRadius;
+				let resultY = resultX * this.slope + this.onlyB;
+				this.superimposed += this.halfRadius;
+				if(this.superimposed >= this.randomLength){
+					return void 0;
+				}
+				return {posx:resultX, posy:resultY}
+			}
+
+		}
+
 		let canvasDom = document.querySelector("#myCanvas");
 		let canvasDomWidth = myCanvas.offsetWidth;
 		let canvasDomHeight = myCanvas.offsetHeight;
@@ -182,25 +270,87 @@
 		cImg.src = "./back.png";
 		// cImg.setAttribute("crossOrigin",'Anonymous');
 
+		function renderDom(parentDom,[...domArr]){
+			if(domArr && domArr.length > 0){
+				let domObj = domArr[0];
+				let appendedDom = parentDom.appendChild(document.createElement(domObj.type));
+
+				async function append(){
+					return new Promise((resolve) => {
+						let timer = setInterval(function(){
+							if(domObj.text.length > 0){
+								appendedDom.innerHTML += domObj.text.substr(0,1);
+								domObj.text = domObj.text.substr(1);
+							}else{
+								resolve(true)
+								clearInterval(timer);
+								timer = null;
+							}
+						},200);
+					})
+				}
+				
+				append().then(res => {
+					if(res){
+						domArr.shift();
+						renderDom(parentDom,domArr)
+					}
+				})
+			}
+		}
+
+
 		// 渲染图片
 		cImg.onload = () => {
+
+			renderDom(document.querySelector("#introSelf"),domArr)
+
 			ctx.drawImage(cImg,0,0,canvasDomWidth,canvasDomHeight);
 			// let map = ctx.getImageData(0,0,canvasDomWidth,canvasDomHeight);
 			// imgGrey(map);
 			// ctx.putImageData(map,0,0);
 			ctx.globalCompositeOperation = 'destination-out';
+
 			// 以线条方式随机清除canvas
-			let startPos = {
-				x:100,
-				y:300,
-			} 
-			for(let i = 0; i < 100; i++){
+			function clear(posx,posy,path){
+				let animateResId = null;
 				let randomPointSize = {x : 2, y : 2}
-				clearCircleArea(ctx,startPos.x,startPos.y,200)
-				startPos.x -= 5;
-				startPos.y += 5;
+				let randomRadius = Math.ceil(Math.random()) * 6
+
+				clearCircleArea(ctx,posx,posy,randomRadius);
+				// console.log(path)
+				let nextPos = path.generateNextPos(posx,posy);
+
+				animateResId = window.requestAnimationFrame(function(){
+					if(nextPos){
+						clear(nextPos.posx,nextPos.posy,path)
+					}else{
+						window.cancelAnimationFrame(animateResId);
+					}
+				})
 			}
+
+
+			let i = 0;
+			let linesNum = Math.floor(canvasDomHeight);
+			
+			while(i < linesNum){
+				let startPos = {
+					x:0,
+					y:Math.ceil(Math.floor(canvasDomHeight) * Math.random()),
+				}
+				let path = new tempPath(0,3,Math.ceil(Math.random() * canvasDomWidth ) / 2 + canvasDomWidth / 2);
+				clear(startPos.x, startPos.y, path);
+				i++;
+			}
+
 		}
+
+		
+
+
+
+
 
 	}
 </script>
