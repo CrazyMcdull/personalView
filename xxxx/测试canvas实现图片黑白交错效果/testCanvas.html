@@ -22,7 +22,7 @@
 		overflow-x: hidden;
 	}
 	.pageHead{
-		height: 100%;
+		height: 80%;
 		position: relative;
 	}
 	.colorfulImg, .myCanvas, .headCont{
@@ -39,9 +39,10 @@
 		background: transparent;
 	}
 	.colorfulImg{
-		background: url("./back1.png");    
+		background: url("./canvasimg.jpg");    
 		background-repeat: no-repeat;
     	background-size: 100% 100%;
+    	display: none;
 	}
 	.colorfulImg>img{
 		width: 600px;
@@ -62,17 +63,22 @@
 		color: #FAFAFA;
 		margin: 0 auto;
 		width: 80%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 	.headCont>header{
 		display: flex;
 		justify-content: space-between;
 		padding-top: 20px;
 	}
-	.headCont>header>h2{
+	.headCont>header>h1{
 		font-size: 40px;
 	}
 	.headCont>header>ul{
 		height: 60px;
+		color: #999999;
+		font-weight: bold;
 	}
 	.headCont>header>ul>li{
 		float: left;
@@ -82,30 +88,43 @@
 		cursor: pointer;
 	}
 	.cont{
-		height: 100%;
+		flex: 1
 	}
 	#introSelf{
-	    background: rgba(255,255,255,.6);
+	    background: rgba(255,255,255,.7);
 	    width: 65%;
 	    margin-top: 60px;
-	    height: 75%;
+	    height: 85%;
 	    box-sizing: border-box;
 	    padding: 40px;
 	    color: #666;
 	}
 	#introSelf p{
-		height: 40px;
 	    line-height: 40px;
 	    font-size: 20px;
 	    text-indent: 40px;
+	    color: #333333;
 	}
 	#introSelf h2{
+	    text-indent: 40px;
 	    margin-bottom: 20px;
 	}
 	/*.headerCont*/
 	.aboutMyself{
 		background: #FFFFFF;
 		height: 500px;
+	}
+	.contTitle{
+		text-align: center;
+		font-weight: bold;
+		font-size: 24px;
+		padding: 40px 0;
+		color: #666666;
+	}
+	.contTitle>span{
+		padding-bottom: 10px;
+		border-bottom: 4px solid #333333;
+		display: inline-block;
 	}
 </style>
 <body>
@@ -114,12 +133,12 @@
 		
 		<div class="pageHead">
 			<div class="colorfulImg">
-				<img src="./img.png" alt="">
+				<!-- <img src="./img.png" alt=""> -->
 			</div>
 			<canvas id="myCanvas" class="myCanvas"></canvas>
 			<div class="headCont">
 				<header>
-					<h2>Personal <span style="font-size: 20px">view</span></h2>
+					<h1>Personal <span style="font-size: 20px">view</span></h1>
 					<ul>
 						<li>主页</li>
 						<li>关于我</li>
@@ -136,22 +155,29 @@
 		</div>
 
 		<div class="aboutMyself">
-			<p>about myself</p>
+			<h2 class="contTitle"><span>About Me</span></h2>
 		</div>
 
 	</div>
 </body>
 <script type="text/javascript">
 	window.onload = ()=>{
-
 		let domArr = [
-			{type:'h2',text:'你好,请先让我做一个自我介绍'},
-			{type:'p',text:'姓名 : panyang'},
-			{type:'p',text:'年龄 : xx'},
-			{type:'p',text:'职业 : 前端开发'},
-			{type:'p',text:'xxxx : 巴拉巴拉'},
-			{type:'p',text:'xxx : 巴拉巴拉...'},
-			{type:'p',text:'xxxx : 巴拉巴拉'},
+			{type:'h2',text:'萤火虫'},
+			{type:'p',text:'小小流萤，在树林里，在黑沉沉的暮色里'},
+			{type:'p',text:'你多么欢乐地展开你的翅膀'},
+			{type:'p',text:'你在欢乐中倾注了你的心'},
+			{type:'p',text:'你不是太阳，你不是月亮，难道你的乐趣就少了几分'},
+			{type:'p',text:'你完成了你的生存，你点亮了你自己的灯'},
+			{type:'p',text:'你所有的都是你自己的，你对谁也不负债蒙恩'},
+			{type:'p',text:'你仅仅服从了，你内在的力量'},
+			{type:'p',text:'你冲破了黑暗的束缚，你微小，然而你并不渺小'},
+			{type:'p',text:'因为宇宙间一切光芒，都是你的亲人'},
+			{type:'p',text:'在墨黑的夜空点燃自己，为远方的你送去一丝光明'},
+			{type:'p',text:'那全部的幸福，都源自燃烧的我，暗夜中模糊的你'},
+			// {type:'p',text:'只要热爱生命'},
+			// {type:'p',text:'一切，都在意料之中'},
+			{type:'p',text:'. . . . . . '},
 		];
 
 		function getDPI() {
@@ -267,7 +293,7 @@
 		let ctx = canvasDom.getContext("2d");
 
 		let cImg = new Image();
-		cImg.src = "./back.png";
+		cImg.src = "./canvas.jpg";
 		// cImg.setAttribute("crossOrigin",'Anonymous');
 
 		function renderDom(parentDom,[...domArr]){
@@ -286,7 +312,7 @@
 								clearInterval(timer);
 								timer = null;
 							}
-						},200);
+						},80);
 					})
 				}
 				
@@ -302,7 +328,7 @@
 
 		// 渲染图片
 		cImg.onload = () => {
-
+			document.querySelector('.colorfulImg').style.display = "block";
 			renderDom(document.querySelector("#introSelf"),domArr)
 
 			ctx.drawImage(cImg,0,0,canvasDomWidth,canvasDomHeight);
@@ -315,7 +341,7 @@
 			function clear(posx,posy,path){
 				let animateResId = null;
 				let randomPointSize = {x : 2, y : 2}
-				let randomRadius = Math.ceil(Math.random()) * 6
+				let randomRadius = Math.ceil(Math.random()) * 3
 
 				clearCircleArea(ctx,posx,posy,randomRadius);
 				// console.log(path)
@@ -332,14 +358,15 @@
 
 
 			let i = 0;
-			let linesNum = Math.floor(canvasDomHeight);
+			let linesNum = Math.floor(canvasDomHeight) * 2;
 			
 			while(i < linesNum){
 				let startPos = {
 					x:0,
 					y:Math.ceil(Math.floor(canvasDomHeight) * Math.random()),
 				}
-				let path = new tempPath(0,3,Math.ceil(Math.random() * canvasDomWidth ) / 2 + canvasDomWidth / 2);
+				// Math.ceil(Math.random() * canvasDomWidth ) / 2
+				let path = new tempPath(0,3, canvasDomWidth * 0.62);
 				clear(startPos.x, startPos.y, path);
 				i++;
 			}
