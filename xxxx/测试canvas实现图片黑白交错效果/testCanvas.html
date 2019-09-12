@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<!--<meta name="viewport" content="width=640,user-scalable=no,target-densitydpi=device-dpi" />-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.0, user-scalable=yes" />
 	<title>test canvas</title>
+	<script type="text/javascript" src="http://cdn.repository.webfont.com/wwwroot/js/wf/youziku.api.min.js"></script>
+	<script type="text/javascript">
+	   $webfont.load(".font_xingshu", "4e9b1895beb14fd1a6abe2d5ffc55e3a", "hdjxingshu");
+	   $webfont.draw();
+	</script>
+	<link href='http://cdn.repository.webfont.com/webfonts/nomal/133001/284/5d79e6e3f629d813a06c45c5.css' rel='stylesheet' type='text/css' />
 </head>
 <style>
 	*{
@@ -15,6 +28,7 @@
 	}
 	html,body{
 		height: 100%;
+		font-family: "Microsoft YaHei"
 	}
 	.outerContainer{
 		height: 100%;
@@ -99,6 +113,8 @@
 	    padding: 40px;
 	    color: #666;
 	}
+
+	 
 	#introSelf p{
 	    line-height: 40px;
 	    font-size: 20px;
@@ -108,6 +124,18 @@
 	#introSelf h2{
 	    text-indent: 40px;
 	    margin-bottom: 20px;
+	}
+	@media screen and (max-width: 767px){
+		#introSelf p{
+		    line-height: 20px;
+		    font-size: 14px;
+		    text-indent: 5px;
+		    color: #333333;
+		}
+		#introSelf h2{
+		    text-indent: 18px;
+		    margin-bottom: 10px;
+		}
 	}
 	/*.headerCont*/
 	.aboutMyself{
@@ -163,7 +191,7 @@
 <script type="text/javascript">
 	window.onload = ()=>{
 		let domArr = [
-			{type:'h2',text:'萤火虫'},
+			{type:'h2',text:'小小前端开发者'},
 			{type:'p',text:'小小流萤，在树林里，在黑沉沉的暮色里'},
 			{type:'p',text:'你多么欢乐地展开你的翅膀'},
 			{type:'p',text:'你在欢乐中倾注了你的心'},
@@ -229,12 +257,53 @@
 		      let widthX=2*calcWidth;  
 		      let heightY=2*calcHeight;  
 		                      
-		      if(stepClear<=radius){  
+		      if(stepClear<=radius){
 		         ctx.clearRect(posX,posY,widthX,heightY);  
 		         stepClear+=1;  
 		         clearArc(x,y,radius);  
-		      }  
+		      }
 		    }  
+		}
+
+		class clearRectOneByOne{
+			// posx : 起始点x坐标
+			// posy : 起始点y坐标
+			// width : 总宽度
+			// height : 总高度
+			constructor(posx,posy,width,height){
+				this.posx = posx;
+				this.posy = posy;
+				this.width = width;
+				this.height = height;
+				this.direction = "down";
+			}
+
+			// ctx,每次清除的宽高
+			clearRect(ctx,oneWidth,oneHeight){
+				const _this = this;
+				let clear = () => {
+					ctx.clearRect(this.posx,this.posy,oneWidth,oneHeight);
+					if(this.posy > this.height){
+						this.direction = "up";
+						this.posx += oneWidth;
+					}
+					if(this.posy < 0){
+						this.direction = "down";
+						this.posx += oneWidth;
+					}
+					this.posy = this.direction === "down" ? this.posy + oneHeight : this.posy - oneHeight;
+					let animateResId = window.requestAnimationFrame(function(){
+						if(_this.posx <= _this.width){
+							clear();
+						}else{
+							window.cancelAnimationFrame(animateResId);
+						}
+					})
+				}
+
+				clear();
+
+			}
 		}
 
 		// 生成一个临时路径
@@ -300,7 +369,10 @@
 			if(domArr && domArr.length > 0){
 				let domObj = domArr[0];
 				let appendedDom = parentDom.appendChild(document.createElement(domObj.type));
-
+				// appendedDom.setAttribute("style","font-size:" + (Math.floor(Math.random() * 12) + 10) + "px");
+				if(domObj.type === "h2"){
+					appendedDom.setAttribute("class","css1bc957309020789");
+				}
 				async function append(){
 					return new Promise((resolve) => {
 						let timer = setInterval(function(){
@@ -319,8 +391,9 @@
 				append().then(res => {
 					if(res){
 						domArr.shift();
-						renderDom(parentDom,domArr)
+						renderDom(parentDom,domArr);
 					}
+
 				})
 			}
 		}
@@ -341,7 +414,7 @@
 			function clear(posx,posy,path){
 				let animateResId = null;
 				let randomPointSize = {x : 2, y : 2}
-				let randomRadius = Math.ceil(Math.random()) * 3
+				let randomRadius = Math.ceil(Math.random()) * 2
 
 				clearCircleArea(ctx,posx,posy,randomRadius);
 				// console.log(path)
@@ -358,19 +431,21 @@
 
 
 			let i = 0;
-			let linesNum = Math.floor(canvasDomHeight) * 2;
+			let linesNum = Math.floor(canvasDomHeight) * 3;
 			
-			while(i < linesNum){
-				let startPos = {
-					x:0,
-					y:Math.ceil(Math.floor(canvasDomHeight) * Math.random()),
-				}
-				// Math.ceil(Math.random() * canvasDomWidth ) / 2
-				let path = new tempPath(0,3, canvasDomWidth * 0.62);
-				clear(startPos.x, startPos.y, path);
-				i++;
-			}
-
+			// while(i < linesNum){
+			// 	let startPos = {
+			// 		x:0,
+			// 		y:Math.ceil(Math.floor(canvasDomHeight) * Math.random()),
+			// 	}
+			// 	// Math.ceil(Math.random() * canvasDomWidth ) / 2
+			// 	let path = new tempPath(0,3, canvasDomWidth * 0.62);
+			// 	clear(startPos.x, startPos.y, path);
+			// 	i++;
+			// }
+			// clearCircleArea(ctx,100,100,50)
+			let clearRect1 = new clearRectOneByOne(0,0,canvasDomWidth * 0.62,canvasDomHeight);
+			clearRect1.clearRect(ctx,40,50)
 		}
 
 		
