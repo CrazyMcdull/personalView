@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<title>crazy mcdull</title>
+	<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.2/??flexible_css.js,flexible.js"></script>
+	<link rel="icon" href="favicon.ico">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/mobileIndex.css" media="screen and (max-width: 1200px)">
+	<link rel="stylesheet" href="font/font_1419226_bgomgcboq1b/iconfont.css">
+</head>
+
+<body>
+	<div class="outerContainer">
+
+		
+		<div class="pageHead">
+			<!-- scroll menu -->
+			<div class="scrollMenu">
+				<div class="scrollInnerMenu">
+					<div class="left">
+						<h2>Personal <span>view</span></h2>
+					</div>
+					<div class="right">
+						<p>
+							<span id="menuControl1" class="iconfont icon-menu"></span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- img under canvas -->
+			<div class="colorfulImg"></div>
+			<canvas id="myCanvas" class="myCanvas"></canvas>
+
+			<!-- header -->
+			<div class="headCont">
+				<header>
+					<h1>Personal <span>view</span></h1>
+					<ul>
+						<li class="active">主页</li>
+						<li>关于我</li>
+						<li>工作经历</li>
+						<li>项目经验</li>
+						<li>自我评价</li>
+						<li>联系方式</li>
+					</ul>
+					<div class="menu">
+						<div class="menuInner">
+							<span id="menuControl" class="iconfont icon-menu"></span>
+							<div class="menuCont">
+								<ul>
+									<li class="active">主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</li>
+									<li>关&nbsp;于&nbsp;我</li>
+									<li>工作经历</li>
+									<li>项目经验</li>
+									<li>自我评价</li>
+									<li>联系方式</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</header>
+				<section class="cont">
+					<div id="introSelf"></div>
+				</section>
+			</div>
+		</div>
+
+		<div class="content aboutMyself">
+			<h2 class="contTitle"><span>About Me</span></h2>
+			<div class="aboutMeCont">
+				<div class="left">
+					<p>掌握JS，CSS核心技术、网络请求方式，浏览器渲染原理以及前端网站的性能优化。</p>
+				</div>
+				<div class="center">
+					<img src="./img/aboutme.png" height="394" width="500" alt="">
+				</div>
+				<div class="right" id="progressBarContainer"></div>
+			</div>
+		</div>
+
+	</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/index.js"></script>

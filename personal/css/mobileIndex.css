@@ -1,0 +1,86 @@
+/* scroll menu */
+.scrollMenu{
+	width: 100%;
+}
+
+.headCont{
+	width: 90%;
+}
+.headCont>header>h1{
+	font-size: 30px;
+}
+.headCont>header>h1>span{
+	font-size: 16px;
+}
+.headCont>header>ul{
+	display: none;
+}
+.headCont .menu{
+	display: flex;
+}
+.headCont .menu span{
+	font-size: 22px;
+	padding-top: 0.2rem;
+}
+#introSelf{
+	padding: .5rem;
+}
+#introSelf p{
+    font-size: 14px;
+    text-indent: .2rem;
+    margin-bottom: 0.15rem;
+    color: #333333;
+}
+#introSelf p span{
+	margin-right: 0.1rem;
+	font-size: 16px;
+}
+#introSelf h2{
+	font-size: 18px;    
+    text-indent: 0;
+	margin-bottom: 0.3rem;
+    color: #333333;
+}
+.contTitle{
+	font-size: 16px;
+	padding: .6rem 0;
+}
+.contTitle>span{
+	padding-bottom: 0.15rem;
+}
+
+/*content*/
+.content{
+	width: 90%;
+}
+
+/*about me content*/
+
+.aboutMeCont>div{
+	width: 50%;
+}
+.aboutMeCont .left{
+	margin-top: 0;
+	width: 100%;
+}
+.aboutMeCont .left p{
+	text-indent: 0.35rem;
+	font-size: 14px;
+}
+/*progress*/
+.progress{
+	margin-top: 0.25rem;
+}
+.progressHead>span{
+	font-size: 0.35rem;
+}
+.progressGroove{
+	height: 0.25rem;
+	border-radius: 0.25rem;
+	margin-top: 0.05rem;
+}
+.progressBar{
+	height: 0.25rem;
+	border-top-left-radius:0.25rem;
+	border-bottom-left-radius:0.25rem;
+}

@@ -1,0 +1,79 @@
+{
+  "id": "1419226",
+  "name": "personalview",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "220373",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "908579",
+      "name": "标签",
+      "font_class": "biaoqian",
+      "unicode": "e69f",
+      "unicode_decimal": 59039
+    },
+    {
+      "icon_id": "1002158",
+      "name": "QQ",
+      "font_class": "qq",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "1375430",
+      "name": "position",
+      "font_class": "position",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "1457645",
+      "name": "close",
+      "font_class": "close",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "1718544",
+      "name": "male",
+      "font_class": "male",
+      "unicode": "e6cb",
+      "unicode_decimal": 59083
+    },
+    {
+      "icon_id": "7457560",
+      "name": "menu",
+      "font_class": "menu",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "7736130",
+      "name": "heart",
+      "font_class": "heart",
+      "unicode": "e8f4",
+      "unicode_decimal": 59636
+    },
+    {
+      "icon_id": "7736274",
+      "name": "phone",
+      "font_class": "phone",
+      "unicode": "e907",
+      "unicode_decimal": 59655
+    },
+    {
+      "icon_id": "9785613",
+      "name": "email",
+      "font_class": "email",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    }
+  ]
+}
