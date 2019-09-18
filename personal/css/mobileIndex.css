@@ -2,7 +2,13 @@
 .scrollMenu{
 	width: 100%;
 }
-
+#toTop{
+	right: .25rem;
+}
+#toTop span{
+	font-size: 30px;
+	color: #666666;
+}
 .headCont{
 	width: 90%;
 }
@@ -62,10 +68,14 @@
 .aboutMeCont .left{
 	margin-top: 0;
 	width: 100%;
+	border-bottom: 1px solid #ddd;
+    padding: 0 0.25rem 0.5rem;
 }
 .aboutMeCont .left p{
 	text-indent: 0.35rem;
 	font-size: 14px;
+	padding: 0.1rem 0;
+	line-height: 0.6rem;
 }
 /*progress*/
 .progress{
@@ -83,4 +93,41 @@
 	height: 0.25rem;
 	border-top-left-radius:0.25rem;
 	border-bottom-left-radius:0.25rem;
+}
+
+.myExperienceInner{
+	flex-direction: column;
+	border: none;
+	border-left: 0.05rem solid #d7d8d8;
+}
+.myExperienceInner .bottomLine{
+	width: 0.05rem;
+	height: 100%;
+	top: 0;
+	left: 0.25rem;
+}
+.experienceCont{
+	width: 100%;
+	max-width: 100%;
+}
+.experienceCont>div{
+	margin: .3rem 0 .3rem .5rem;
+	border: 2px solid #ddd;
+}
+.experienceCont>span{
+	width: 0.25rem;
+	height: 0.35rem;
+	left: 0.2rem;
+	top: 50%;
+	margin-top: -0.175rem;
+}
+.experienceCont>div h3{
+	font-size: 0.45rem;
+}
+.experienceCont>div h4{
+	font-size: 0.4rem;
+}
+.experienceCont>div p{
+	text-indent: 0;
+	font-size: 0.35rem;
 }

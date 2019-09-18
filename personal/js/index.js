@@ -3,6 +3,11 @@
 	// listening scroll
 	$(".outerContainer").scroll((e) => {
 		let topDirection = $(".headCont .cont").offset().top;
+		if(topDirection <= 50){
+			$("#toTop").show();
+		}else{
+			$("#toTop").hide();
+		}
 		if(topDirection <= 20){
 			$(".scrollMenu").show();
 			$(".scrollMenu").css({
@@ -17,7 +22,7 @@
 	// words array
 	let fontArr = [
 		{type:'h2',text:'WEB前端开发'},
-		{type:'p',text:'做一个温暖善良的人，不求大富大贵，只求过简单欢乐的生活。',icon:'biaoqian'},
+		{type:'p',text:'做一个温暖善良的人，不求大富大贵，只求过着简单欢乐的生活。',icon:'biaoqian'},
 		{type:'p',text:'姓名 : 潘杨 ~',icon:'user'},
 		{type:'p',text:'性别 : 男',icon:'male'},
 		{type:'p',text:'年龄 : 24 岁',icon:'biaoqian'},
@@ -29,12 +34,28 @@
 	];
 
 	let progressArr = [
-		{title:"Javascript",percent:"90%"},
-		{title:"Vue",percent:"85%"},
-		{title:"React",percent:"80%"},
-		{title:"RN / 小程序",percent:"70%"},
-		{title:"Node",percent:"65%"},
-		{title:"Ps / Python",percent:"40%"},
+		{title:"Javascript",percent:"85%"},
+		{title:"Vue",percent:"80%"},
+		{title:"React",percent:"75%"},
+		{title:"RN / 小程序",percent:"65%"},
+		{title:"Node",percent:"50%"},
+		{title:"Ps / Python",percent:"35%"},
+	];
+
+	let idsLinkArr = [
+		"m_home",
+		"m_aboutme",
+		"m_myexperience",
+		"m_project",
+		"m_evaluation",
+		"m_contact",
+	];
+
+	let experienceArr = [
+		{date:"2014.09",title:"西安工业大学",cont:"专业:信息与计算科学"},
+		{date:"2017.10",title:"杭州绝策科技有限公司",cont:"主要业务为新加坡车辆运输及人员管理调度系统."},
+		{date:"2018.11",title:"北京航星永志科技有限公司",cont:"主要业务为各地政府干部及人才档案管理系统."},
+		{date:"2019",title:"待续...",cont:""},
 	];
 
 	let canvasDom = document.querySelector("#myCanvas");
@@ -83,6 +104,7 @@
 
 	// render progress bar
 	let renderProgressBar = (progressArr) => {
+
 		let divDoms = "";
 		progressArr.forEach((item) => {
 			divDoms +=
@@ -94,11 +116,32 @@
 					"<div class='progressBar' style='width:"+ item.percent +"'></div>"+
 					"<div class='progressGroove'></div>"+
 				"</div>";
-			$("#progressBarContainer").html(divDoms);
-		})
+		});
+		$("#progressBarContainer").html(divDoms);
+	}
+
+
+	// render experience
+	let renderExperience = (array) => {
+
+		let divDoms = $("#myExperienceInner").html();
+		array.forEach((item) => {
+			divDoms += 
+				"<div class='experienceCont'>"+
+					"<span></span>"+
+					"<div>"+
+						"<h3>"+ item.date +"</h3>"+
+						"<h4>"+ item.title +"</h4>"+
+						"<p>"+ item.cont +"</p>"+
+					"</div>"+
+				"</div>";
+		});
+		$("#myExperienceInner").html(divDoms);
+
 	}
 
 	renderProgressBar(progressArr);
+	renderExperience(experienceArr);
 
 	// 清除canvas
 	class clearRectOneByOne{
@@ -192,5 +235,27 @@
 	});
 
 
+	$(".menuUl li").click((e) => {
+		let index = $(e.target).index();
+		let directionTop = $("#"+idsLinkArr[index]).offset().top - 30;
+
+		if(index !== 0){
+			$(".outerContainer").scrollTop(directionTop)
+		}else{
+			$(".outerContainer").scrollTop(0)
+		}
+
+	});
+
+	$("#toTop").click((e)=>{
+		let timer = setInterval(()=>{
+			let top = $(".outerContainer").scrollTop();
+			$(".outerContainer").scrollTop(top - 50);
+			if(top <= 0){
+				clearInterval(timer);
+				timer = null;
+			}	
+		},1000 / 60)
+	});
 
 }();

@@ -13,12 +13,15 @@
 	<link rel="icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/index.css">
 	<link rel="stylesheet" href="css/mobileIndex.css" media="screen and (max-width: 1200px)">
-	<link rel="stylesheet" href="font/font_1419226_bgomgcboq1b/iconfont.css">
+	<link rel="stylesheet" href="font/font_1419226_uz0b9g5e44c/iconfont.css">
 </head>
 
 <body>
 	<div class="outerContainer">
-
+		
+		<div id="toTop">
+			<span class="iconfont icon-top-arrow-to-top"></span>
+		</div>
 		
 		<div class="pageHead">
 			<!-- scroll menu -->
@@ -41,8 +44,8 @@
 			<!-- header -->
 			<div class="headCont">
 				<header>
-					<h1>Personal <span>view</span></h1>
-					<ul>
+					<h1 id="m_home">Personal <span>view</span></h1>
+					<ul class="menuUl">
 						<li class="active">主页</li>
 						<li>关于我</li>
 						<li>工作经历</li>
@@ -54,7 +57,7 @@
 						<div class="menuInner">
 							<span id="menuControl" class="iconfont icon-menu"></span>
 							<div class="menuCont">
-								<ul>
+								<ul class="menuUl">
 									<li class="active">主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</li>
 									<li>关&nbsp;于&nbsp;我</li>
 									<li>工作经历</li>
@@ -73,15 +76,49 @@
 		</div>
 
 		<div class="content aboutMyself">
-			<h2 class="contTitle"><span>About Me</span></h2>
+			<h2 class="contTitle" id="m_aboutme"><span>About Me</span></h2>
 			<div class="aboutMeCont">
 				<div class="left">
-					<p>掌握JS，CSS核心技术、网络请求方式，浏览器渲染原理以及前端网站的性能优化。</p>
+					<p>熟练掌握 HTML5、CSS3,精通 CSS+DIV 页面布局,能实现移动端页面布局,会使用 SCSS.</p>
+					<p>熟练掌握 JS,熟练运用 ES6 常用语法,能很好的配合后台做数据请求和传递,熟练掌握主流的Web插件，如 jquery、zepto、Swiper.</p>
+					<p>熟悉模块化编程，熟练使用 vue、Reactjs、ReactNative等主流框架,微信小程序(均有真实项目经验),熟练使用 Antd、elementUi等常见 UI组件库.</p>
+					<p>会使用 Git版本控制工具,会使用简单的 Axure、PS、Fiddler等工具,了解 python基础.</p>
+					<p>有良好的编码风格,保证代码的可维护性.</p>
 				</div>
 				<div class="center">
 					<img src="./img/aboutme.png" height="394" width="500" alt="">
 				</div>
 				<div class="right" id="progressBarContainer"></div>
+			</div>
+		</div>
+		
+		<div class="content">
+			<h2 class="contTitle" id="m_myexperience"><span>My Experience</span></h2>
+			<div class="commonInnerCont myExperience">
+				<div class="myExperienceInner" id="myExperienceInner">
+					<div class="bottomLine"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<h2 class="contTitle" id="m_project"><span>Project Experience</span></h2>
+			<div class="commonInnerCont projectExperience">
+				
+			</div>
+		</div>
+
+		<div class="content">
+			<h2 class="contTitle" id="m_evaluation"><span>Self Evaluation</span></h2>
+			<div class="commonInnerCont evaluation">
+				
+			</div>
+		</div>
+		
+		<div class="content">
+			<h2 class="contTitle" id="m_contact"><span>Contact Me</span></h2>
+			<div class="commonInnerCont contactMe">
+				
 			</div>
 		</div>
 
