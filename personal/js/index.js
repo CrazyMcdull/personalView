@@ -58,6 +58,8 @@
 		{date:"2019",title:"待续...",cont:""},
 	];
 
+	let projectArr = [];
+
 	let canvasDom = document.querySelector("#myCanvas");
 	let canvasDomWidth = myCanvas.offsetWidth;
 	let canvasDomHeight = myCanvas.offsetHeight;
