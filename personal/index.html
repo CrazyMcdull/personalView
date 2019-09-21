@@ -11,6 +11,8 @@
 	<title>crazy mcdull</title>
 	<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.2/??flexible_css.js,flexible.js"></script>
 	<link rel="icon" href="favicon.ico">
+
+	<link rel="stylesheet" href="css/swiper.min.css">
 	<link rel="stylesheet" href="css/index.css">
 	<link rel="stylesheet" href="css/mobileIndex.css" media="screen and (max-width: 1200px)">
 	<link rel="stylesheet" href="font/font_1419226_uz0b9g5e44c/iconfont.css">
@@ -19,10 +21,17 @@
 <body>
 	<div class="outerContainer">
 		
+		<!-- tip -->
+		<div class="tip">
+			<p>此网页支持电脑和手机浏览，简历在最下方可下载查看。【点击隐藏】</p>
+		</div>
+
+		<!-- scroll to top -->
 		<div id="toTop">
 			<span class="iconfont icon-top-arrow-to-top"></span>
 		</div>
 		
+
 		<div class="pageHead">
 			<!-- scroll menu -->
 			<div class="scrollMenu">
@@ -103,28 +112,42 @@
 
 		<div class="content">
 			<h2 class="contTitle" id="m_project"><span>Project Experience</span></h2>
-			<div class="commonInnerCont projectExperience">
-				<div class="projectExperienceInner">
-					
-				</div>
+			<div class="commonInnerCont projectExperience swiper-container">
+				<div class="projectExperienceInner swiper-wrapper" id="projectExperience"></div>
+				<!-- Add Pagination -->
+			    <div class="swiper-pagination"></div>
 			</div>
 		</div>
 
 		<div class="content">
 			<h2 class="contTitle" id="m_evaluation"><span>Self Evaluation</span></h2>
 			<div class="commonInnerCont evaluation">
-				
+				<div class="canvasContainer">
+					<div id="evalutionCanvas"></div>
+				</div>
 			</div>
 		</div>
 		
-		<div class="content">
+		<div class="content contactContent">
 			<h2 class="contTitle" id="m_contact"><span>Contact Me</span></h2>
 			<div class="commonInnerCont contactMe">
-				
+				<div class="qrCode">
+					<img src="img/qrcode1.jpg" alt="">
+				</div>
+				<div class="contact">
+					<p>Q Q：815480491</p>
+					<p>电话：18309220484</p>
+					<p>邮箱：18309220484@163.com</p>
+					<a href="#">我的简历</a>
+				</div>
 			</div>
+			<p class="firstP">Copyright 2010-2018 Crazymcdull 版权所有 </p>
+			<p>备案号 : 陕ICP备1400xx61号</p>
 		</div>
 
 	</div>
 </body>
 <script src="js/jquery.min.js"></script>
+<script src="js/swiper.min.js"></script>
+<script src="js/collision.js"></script>
 <script src="js/index.js"></script>

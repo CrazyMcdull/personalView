@@ -58,7 +58,10 @@
 		{date:"2019",title:"待续...",cont:""},
 	];
 
-	let projectArr = [];
+	let projectArr = [
+		{img:"./img/talent.png",title:"流动人才",synopsis:"这是一个xxx项目",tecCont:"",isMobile:false},
+		{img:"./img/vbus.jpg",title:"vbus APP",synopsis:"这是一个xxx项目",tecCont:"",isMobile:true},
+	];
 
 	let canvasDom = document.querySelector("#myCanvas");
 	let canvasDomWidth = myCanvas.offsetWidth;
@@ -127,6 +130,7 @@
 	let renderExperience = (array) => {
 
 		let divDoms = $("#myExperienceInner").html();
+
 		array.forEach((item) => {
 			divDoms += 
 				"<div class='experienceCont'>"+
@@ -138,12 +142,96 @@
 					"</div>"+
 				"</div>";
 		});
+
 		$("#myExperienceInner").html(divDoms);
 
 	}
 
+	// render project
+	let renderProject = (array) => {
+		let divDoms = "";
+
+		array.forEach((item) => {
+			if(item.isMobile){
+				divDoms += 
+				"<div class='swiper-slide'>" +
+					"<div class='mobileSlide'>" +
+						"<img src='"+ item.img +"' title='"+ item.title +"'></img>" +
+						"<div class='mobileCont'>" +
+							"<h4>"+ item.title +"</h4>" +
+							"<p class='synopsis'><span>项目简介：</span>"+ item.synopsis +"</p>" +
+							"<p class='tecCont'><span>所用技术点：</span>"+ item.tecCont +"</p>" +
+						"</div>"+
+					"</div>"+
+				"</div>"
+			}else{
+				divDoms += 
+				"<div class='swiper-slide pcSlide'>" +
+					"<div class='pcSlide'>" +
+						"<img src='"+ item.img +"' title='"+ item.title +"'></img>" +
+						"<div class='zzc'>"+
+							"<div class='pcCont'>"+
+								"<h4>"+ item.title +"</h4>" +
+								"<p class='synopsis'><span>项目简介：</span>"+ item.synopsis +"</p>" +
+								"<p class='tecCont'><span>所用技术点：</span>"+ item.tecCont +"</p>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+				"</div>"
+			}
+			
+		});
+
+		$("#projectExperience").html(divDoms);
+
+		// new carousel
+		let certifySwiper = new Swiper('.swiper-container', {
+			watchSlidesProgress: true,
+			slidesPerView: 'auto',
+			centeredSlides: true,
+			loop: true,
+			// loopedSlides: 5,
+			autoplay: false,
+			pagination: {
+				el: '.swiper-pagination',			
+			},
+			on: {
+				progress: function(progress) {
+					for (let i = 0; i < this.slides.length; i++) {
+						let slide = this.slides.eq(i);
+						let slideProgress = this.slides[i].progress;
+						let modify = 1;
+						if (Math.abs(slideProgress) > 1) {
+							modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
+						}
+						let translate = slideProgress * modify * 260 + 'px';
+						let scale = 1 - Math.abs(slideProgress) / 5;
+						let zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
+						slide.transform('translateX(' + translate + ') scale(' + scale + ')');
+						slide.css('zIndex', zIndex);
+						slide.css('opacity', 1);
+						if (Math.abs(slideProgress) > 3) {
+							slide.css('opacity', 0);
+						}
+					}
+				},
+				setTransition: function(transition) {
+					for (let i = 0; i < this.slides.length; i++) {
+						let slide = this.slides.eq(i)
+						slide.transition(transition);
+					}
+
+				}
+			}
+
+		});
+
+	}
+
+
 	renderProgressBar(progressArr);
 	renderExperience(experienceArr);
+	renderProject(projectArr);
 
 	// 清除canvas
 	class clearRectOneByOne{
@@ -241,6 +329,8 @@
 		let index = $(e.target).index();
 		let directionTop = $("#"+idsLinkArr[index]).offset().top - 30;
 
+		$(".menuUl li").removeClass("active");
+		$(e.target).addClass("active");
 		if(index !== 0){
 			$(".outerContainer").scrollTop(directionTop)
 		}else{
@@ -259,5 +349,55 @@
 			}	
 		},1000 / 60)
 	});
+
+	$(".tip").click((e) => {
+		$(".tip").fadeOut(2000)
+	});
+
+	// evalution canvas
+	(function(){
+		let evalutionCanvas = $("#evalutionCanvas");
+		evalutionCanvas.width = $("#evalutionCanvas").width();
+		evalutionCanvas.height = $("#evalutionCanvas").height();
+		let currentWindowWidth = $(window).width();
+		let rand = (m,n) =>  m + parseInt((n-m)*Math.random());
+
+		let says = ["善良","乒乓球","LOL","阳光","积极","努力","音乐","选择恐惧症","发呆","钻研"];
+		let saysLength = says.length;
+		let oC = $("#evalutionCanvas")[0];
+		let mxwidth = oC.offsetWidth;
+		let mxheight = oC.offsetHeight;
+
+		let oB = new BallBox('evalutionCanvas');
+		oB.ballRun();
+		for(let i=0;i<15;i++){
+			let b=rand(currentWindowWidth > 1000 ? 60 : 20 ,currentWindowWidth > 1000 ? 80 : 30 );
+			let x=rand(b,mxwidth-b);
+			let y=rand(b,mxheight-b);
+			let ball=new Ball({
+				'b':b,
+				'x':x,
+				'y':y,
+				'sx':rand(1,currentWindowWidth > 1000 ? 4 : 2),
+				'sy':rand(1,currentWindowWidth > 1000 ? 4 : 2),
+				'c':'url(img/paopao'+rand(1,6)+'.png)',
+				'opa':rand(60,100)/100,
+				'fontSize':currentWindowWidth > 1200 ? '14' : '8',
+				'callBack':function(n){
+					//this.setB(rand(30,50));
+					//this.setM();
+					this.setOpa(rand(60,100)/100);
+					if(n%10==0){this.setC('url(img/paopao'+rand(1,6)+'.png)')};//撞三次改变下图片
+					// if(n%50==0){
+					// 	this.setB(rand(40+parseInt((n>1000?1000:n)/50),60+parseInt((n>1000?1000:n)/50)));
+					// }//撞50次改大小
+					this.setHTML(says[i % says.length]);
+				}
+			});
+
+			oB.addBall(ball);
+		}
+	})();
+	
 
 }();

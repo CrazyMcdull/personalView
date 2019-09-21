@@ -2,6 +2,9 @@
 .scrollMenu{
 	width: 100%;
 }
+.tip>p{
+	font-size: 8px;
+}
 #toTop{
 	right: .25rem;
 }
@@ -130,4 +133,41 @@
 .experienceCont>div p{
 	text-indent: 0;
 	font-size: 0.35rem;
+}
+
+/* project */
+.swiper-slide h4{
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 0.1rem;
+}
+
+.swiper-slide p{
+	font-size: 12px;
+	margin-bottom: 0.025rem;
+}
+
+.pcSlide .pcCont{
+	padding: 0.25rem;
+}
+.mobileCont{
+	padding: 0.25rem;
+}
+
+
+.swiper-slide{
+	height: 5rem;
+	max-height: 5rem;
+}
+.swiper-pagination-bullets .swiper-pagination-bullet {
+	width: 4px;
+	height: 4px;
+}
+
+.contactContent{
+	width: 100%;
+	margin-bottom: 0.5rem;
+}
+.contactMe>div{
+	padding: 0 .5rem;
 }
