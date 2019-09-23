@@ -84,6 +84,9 @@ fieldset,img{border:0;}
     transition: all .2s linear;
 	position: fixed;
 }
+.menuUl li{
+	cursor: pointer;
+}
 .scrollInnerMenu{
 	display: flex;
 	width: 90%;
@@ -92,6 +95,21 @@ fieldset,img{border:0;}
 	justify-content: space-between;
     color: #efefef;
 }
+.scrollInnerMenu .right{
+	position: relative;
+}
+.scrollInnerMenu .right ul{
+	position: absolute;
+	background: #292929;
+	color: #FFFFFF;
+	padding-bottom: .2rem;
+}
+.scrollInnerMenu .right ul li{
+	white-space: nowrap;
+	padding: 0.15rem 0.6rem;
+	font-size: 16px;
+}
+
 .scrollMenu .left h2{
 	font-size: 24px;
 	height: 100%;

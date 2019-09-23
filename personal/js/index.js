@@ -1,24 +1,5 @@
 !!function(){
 
-	// listening scroll
-	$(".outerContainer").scroll((e) => {
-		let topDirection = $(".headCont .cont").offset().top;
-		if(topDirection <= 50){
-			$("#toTop").show();
-		}else{
-			$("#toTop").hide();
-		}
-		if(topDirection <= 20){
-			$(".scrollMenu").show();
-			$(".scrollMenu").css({
-				"display" : "flex",
-				"opacity" : topDirection >= 0 ? topDirection / 20  : 1
-			})
-		}else{
-			$(".scrollMenu").hide();
-		}
-	});
-
 	// words array
 	let fontArr = [
 		{type:'h2',text:'WEB前端开发'},
@@ -296,8 +277,7 @@
 	}
 
 
-	// menu
-	let clickNum = 0;
+	
 	// showOrHide 1:show 0:hide
 	let showHideMenu = (showOrHide) => {
 		let menuContWidth = document.body.clientWidth >= 1200 ? Math.floor(0.28 * canvasDomWidth) : Math.floor(0.315 * canvasDomWidth);
@@ -314,6 +294,66 @@
 		
 	}
 
+	// evalution canvas
+	let evalutionRender = () => {
+		let evalutionCanvas = $("#evalutionCanvas");
+		evalutionCanvas.html("");
+		evalutionCanvas.width = $("#evalutionCanvas").width();
+		evalutionCanvas.height = $("#evalutionCanvas").height();
+		let currentWindowWidth = $(window).width();
+		let rand = (m,n) =>  m + parseInt((n-m)*Math.random());
+
+		let says = ["善良","乒乓球","LOL","阳光","积极","努力","音乐","选择恐惧症","发呆","钻研"];
+		let saysLength = says.length;
+		let oC = $("#evalutionCanvas")[0];
+		let mxwidth = oC.offsetWidth;
+		let mxheight = oC.offsetHeight;
+
+		let oB = new BallBox('evalutionCanvas');
+
+		let maxTempWidth = $("#evalutionCanvas").width() / 15;
+		let minTempWidth = $("#evalutionCanvas").width() / 15 - Math.ceil($(window).width() * 20 / 1920);
+
+		oB.ballRun();
+
+		for(let i=0;i<15;i++){
+			let b=rand(minTempWidth > 20 ? minTempWidth : 20 ,maxTempWidth > 30 ? maxTempWidth : 30);
+			let x=rand(b,mxwidth-b);
+			let y=rand(b,mxheight-b);
+			let ball=new Ball({
+				'b':b,
+				'x':x,
+				'y':y,
+				'sx':rand(1,currentWindowWidth > 1000 ? 3 : 1.5),
+				'sy':rand(1,currentWindowWidth > 1000 ? 3 : 1.5),
+				'c':'url(img/paopao'+rand(1,6)+'.png)',
+				'opa':rand(60,100)/100,
+				'fontSize':currentWindowWidth > 1200 ? '14' : '8',
+				'callBack':function(n){
+					//this.setB(rand(30,50));
+					//this.setM();
+					this.setOpa(rand(60,100)/100);
+					if(n % 20==0){this.setC('url(img/paopao'+rand(1,6)+'.png)')};//撞三次改变下图片
+					// if(n%50==0){
+					// 	this.setB(rand(40+parseInt((n>1000?1000:n)/50),60+parseInt((n>1000?1000:n)/50)));
+					// }//撞50次改大小
+					this.setHTML(says[i % says.length]);
+				}
+			});
+
+			oB.addBall(ball);
+		}
+	}
+	evalutionRender();
+
+
+	// event
+	$(window).resize(evalutionRender)
+	$(window).click(() => {
+		$(".scrollMenu ul").hide();
+	});
+
+	let clickNum = 0;
 	// click menu icon
 	$("#menuControl").click((event) => {
 		if(clickNum % 2 === 0){
@@ -325,19 +365,25 @@
 	});
 
 
-	$(".menuUl li").click((e) => {
-		let index = $(e.target).index();
-		let directionTop = $("#"+idsLinkArr[index]).offset().top - 30;
+	let clickLiFunc = (dom) => {
+		$(dom).click((e) => {
+			let index = $(e.target).index();
+			let directionTop = $(".outerContainer").scrollTop() + $("#"+idsLinkArr[index]).offset().top - 30;
+			// console.log(index);
+			$(dom).removeClass("active");
+			$(e.target).addClass("active");
 
-		$(".menuUl li").removeClass("active");
-		$(e.target).addClass("active");
-		if(index !== 0){
-			$(".outerContainer").scrollTop(directionTop)
-		}else{
-			$(".outerContainer").scrollTop(0)
-		}
-
-	});
+			if(index !== 0){
+				$(".outerContainer").scrollTop(directionTop);
+			}else{
+				$(".outerContainer").scrollTop(0)
+			}
+			return false;
+		});
+	}
+	clickLiFunc($(".scrollInnerMenu ul li"));
+	clickLiFunc($(".menuCont ul li"));
+	clickLiFunc($(".bigMenuUl li"));
 
 	$("#toTop").click((e)=>{
 		let timer = setInterval(()=>{
@@ -351,53 +397,53 @@
 	});
 
 	$(".tip").click((e) => {
-		$(".tip").fadeOut(2000)
+		$(".tip").fadeOut(1000)
 	});
 
-	// evalution canvas
-	(function(){
-		let evalutionCanvas = $("#evalutionCanvas");
-		evalutionCanvas.width = $("#evalutionCanvas").width();
-		evalutionCanvas.height = $("#evalutionCanvas").height();
-		let currentWindowWidth = $(window).width();
-		let rand = (m,n) =>  m + parseInt((n-m)*Math.random());
+	let clickNum1 = 0;
+	$(".scrollInnerMenu .right").click((e) => {
+		if(clickNum1 % 2 === 0){
+			$(".scrollInnerMenu .right ul").show();
+		}else{
+			$(".scrollInnerMenu .right ul").hide();
+		}
+		clickNum1 ++;
+		return false;
+	});
 
-		let says = ["善良","乒乓球","LOL","阳光","积极","努力","音乐","选择恐惧症","发呆","钻研"];
-		let saysLength = says.length;
-		let oC = $("#evalutionCanvas")[0];
-		let mxwidth = oC.offsetWidth;
-		let mxheight = oC.offsetHeight;
+	// listening scroll
+	$(".outerContainer").scroll((e) => {
+		let topDirection = $(".headCont .cont").offset().top;
+		let windowWidth = $(window).width();
+		if(topDirection <= 50){
+			$("#toTop").show();
+		}else{
+			$("#toTop").hide();
+		}
+		if(topDirection <= 20){
+			$(".scrollMenu").show();
 
-		let oB = new BallBox('evalutionCanvas');
-		oB.ballRun();
-		for(let i=0;i<15;i++){
-			let b=rand(currentWindowWidth > 1000 ? 60 : 20 ,currentWindowWidth > 1000 ? 80 : 30 );
-			let x=rand(b,mxwidth-b);
-			let y=rand(b,mxheight-b);
-			let ball=new Ball({
-				'b':b,
-				'x':x,
-				'y':y,
-				'sx':rand(1,currentWindowWidth > 1000 ? 4 : 2),
-				'sy':rand(1,currentWindowWidth > 1000 ? 4 : 2),
-				'c':'url(img/paopao'+rand(1,6)+'.png)',
-				'opa':rand(60,100)/100,
-				'fontSize':currentWindowWidth > 1200 ? '14' : '8',
-				'callBack':function(n){
-					//this.setB(rand(30,50));
-					//this.setM();
-					this.setOpa(rand(60,100)/100);
-					if(n%10==0){this.setC('url(img/paopao'+rand(1,6)+'.png)')};//撞三次改变下图片
-					// if(n%50==0){
-					// 	this.setB(rand(40+parseInt((n>1000?1000:n)/50),60+parseInt((n>1000?1000:n)/50)));
-					// }//撞50次改大小
-					this.setHTML(says[i % says.length]);
-				}
+			$(".scrollMenu").css({
+				"display" : "flex",
+				"opacity" : topDirection >= 0 ? topDirection / 20  : 1,
 			});
 
-			oB.addBall(ball);
+			if(windowWidth > 800){
+				$(".scrollMenu ul").css({
+					"right" : $(".scrollMenu ul").width() * -0.5,
+					"margin-right" : "50%"
+				})
+			}else{
+				$(".scrollMenu ul").css({
+					"right" : windowWidth * -0.05,
+				})
+			}
+			
+		}else{
+			$(".scrollMenu").hide();
+			$(".scrollMenu ul").hide();
+			clickNum1 = 0;
 		}
-	})();
-	
+	});
 
 }();

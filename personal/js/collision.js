@@ -178,6 +178,7 @@ Ball.prototype.initStyle = function() {
 	s.border = this.borderWidth + 'px solid ' + this.borderColor;
 	s.opacity = this.opa;
 	s.overflow = "hidden";
+	s.cursor = "pointer";
 	if (this.html) {
 		this.e.innerHTML = this.html;
 		s.textAlign = 'center';
