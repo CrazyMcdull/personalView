@@ -40,8 +40,42 @@
 	];
 
 	let projectArr = [
-		{img:"./img/talent.png",title:"流动人才",synopsis:"这是一个xxx项目",tecCont:"",isMobile:false},
-		{img:"./img/vbus.jpg",title:"vbus APP",synopsis:"这是一个xxx项目",tecCont:"",isMobile:true},
+		{
+			img:"./img/talent.png",
+			title:"流动人才信息综合管理系统",
+			synopsis:"此项目为管理流动人才档案的项目,主要包含业务为人才信息管理,人才数字档案管理,档案相关业务办理和相关证明,人才数字档案库房管理,人才数据分析和人才数据报告,处理对应的人才网站、小程序和pad数据查看提供数据和处理等业务",
+			tecCont:"vue + vue-cli + vue-route + vuex + axios + antd",
+			isMobile:false
+		},
+		{
+			img:"./img/wechat.png",
+			title:"个人档案服务小程序",
+			synopsis:"此项目为流动人才业务办理中分离出来的个人档案服务申请,个人的注册登录,存档申请,存档机构查询,开具相关证明,档案转出及消息通知,个人信息修改等功能",
+			tecCont:"wxml + wxss + js + 微信小程序开发者工具",
+			isMobile:true
+		},
+		{
+			img:"./img/vSmart.png",
+			title:"vsmart物流系统",
+			synopsis:"此项目为vsmart下所属的子系统物流系统,面向大多运货车辆公司,主要业务为司机信息管理,物流任务派发,司机车辆管理,车辆地图位置信息管理,物流订单管理,海域无信号订单处理,订单交接管理,维修上报信息等",
+			tecCont:"react + react-dom + react-router + redux + react-redux + antd + google地图 + leaflet创建底图 + fiddler",
+			isMobile:false
+		},
+		{
+			img:"./img/vbus.jpg",
+			title:"vSmart 司机APP",
+			synopsis:"此项目为新加坡校车项目中的司机APP,主要业务为司机接送学生,学生上下车情况查看,车上监控查看,司机对车上信息学生状态的管理操作,车辆进出站点信息查看进出站点操作,地图位置信息,司机个人信息修改,语音提示,司机发送消息和联系家长等实现",
+			tecCont:"ReactNative + react + google地图 + leaflet创建底图 + OTG连接刷卡器 + ffmpeg转码视频流",
+			isMobile:true
+		},
+		{
+			img:"./img/vsmartParent.png",
+			title:"vSmart 家长页面和APP",
+			synopsis:"此项目为校车项目的家长注册页面和家长APP开发,供家长注册,登录,给学生报名校车接送,添加学生,查看学生上下车动态等",
+			tecCont:"Jq + tpl + ReactNative + react",
+			isMobile:true
+		},
+		
 	];
 
 	let canvasDom = document.querySelector("#myCanvas");
@@ -303,7 +337,7 @@
 		let currentWindowWidth = $(window).width();
 		let rand = (m,n) =>  m + parseInt((n-m)*Math.random());
 
-		let says = ["善良","乒乓球","LOL","阳光","积极","努力","音乐","选择恐惧症","发呆","钻研"];
+		let says = ["善良","乒乓球","读书","阳光","积极","努力","音乐","发呆","钻研"];
 		let saysLength = says.length;
 		let oC = $("#evalutionCanvas")[0];
 		let mxwidth = oC.offsetWidth;
