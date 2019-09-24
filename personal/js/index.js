@@ -1,6 +1,6 @@
 !!function(){
 
-	// words array
+	// data needs render
 	let fontArr = [
 		{type:'h2',text:'WEB前端开发'},
 		{type:'p',text:'做一个温暖善良的人，不求大富大贵，只求过着简单欢乐的生活。',icon:'biaoqian'},
@@ -55,7 +55,7 @@
 			isMobile:true
 		},
 		{
-			img:"./img/vSmart.png",
+			img:"./img/vsmart.png",
 			title:"vsmart物流系统",
 			synopsis:"此项目为vsmart下所属的子系统物流系统,面向大多运货车辆公司,主要业务为司机信息管理,物流任务派发,司机车辆管理,车辆地图位置信息管理,物流订单管理,海域无信号订单处理,订单交接管理,维修上报信息等",
 			tecCont:"react + react-dom + react-router + redux + react-redux + antd + google地图 + leaflet创建底图 + fiddler",
@@ -78,16 +78,80 @@
 		
 	];
 
+	// canvas img handle
 	let canvasDom = document.querySelector("#myCanvas");
 	let canvasDomWidth = myCanvas.offsetWidth;
 	let canvasDomHeight = myCanvas.offsetHeight;
 	canvasDom.width = canvasDomWidth;
 	canvasDom.height = canvasDomHeight;
-
 	let ctx = canvasDom.getContext("2d");
-
 	let cImg = new Image();
 	cImg.src = "./img/canvas.jpg";
+
+	// 清除canvas
+	class clearRectOneByOne{
+		// posx : current x position
+		// posy : current y position
+		// width : total width
+		// height : total height
+		constructor(posx,posy,width,height){
+			this.posx = posx;
+			this.posy = posy;
+			this.width = width;
+			this.height = height;
+			this.direction = "down";
+		}
+
+		// ctx,clear rect
+		clearRect(ctx,oneWidth,oneHeight){
+			const _this = this;
+			let clear = () => {
+
+				let endDistance = this.width - this.posx;
+				let nextClearWidth = endDistance > oneWidth ? oneWidth : endDistance;
+
+				ctx.clearRect(this.posx,this.posy,nextClearWidth,oneHeight);
+
+				if(this.posy > this.height){
+					this.direction = "up";
+					this.posx += oneWidth;
+				}
+				if(this.posy < 0){
+					this.direction = "down";
+					this.posx += oneWidth;
+				}
+
+				this.posy = this.direction === "down" ? this.posy + oneHeight : this.posy - oneHeight;
+				let animateResId = window.requestAnimationFrame(function(){
+					if(_this.posx < _this.width){
+						clear();
+					}else{
+						window.cancelAnimationFrame(animateResId);
+					}
+				})
+			}
+
+			clear();
+
+		}
+	}
+
+	// canvas img
+	cImg.onload = () => {
+		document.querySelector('.colorfulImg').style.display = "block";
+		renderDom(document.querySelector("#introSelf"),fontArr);
+
+		ctx.drawImage(cImg,0,0,canvasDomWidth,canvasDomHeight);
+		ctx.globalCompositeOperation = 'destination-out';
+
+		let clearWidth = document.body.clientWidth >= 1200 ? 0.62 : 0.635;
+		let clearRect1 = new clearRectOneByOne(0,0,Math.ceil(canvasDomWidth * clearWidth),canvasDomHeight);
+
+		clearRect1.clearRect(ctx,Math.ceil(canvasDomWidth * clearWidth) * 0.1,60);
+	}
+
+
+	// ----------------------------------------- render data
 
 	let renderDom = (parentDom,[...fontArr]) => {
 		if(fontArr && fontArr.length > 0){
@@ -243,91 +307,6 @@
 
 	}
 
-
-	renderProgressBar(progressArr);
-	renderExperience(experienceArr);
-	renderProject(projectArr);
-
-	// 清除canvas
-	class clearRectOneByOne{
-		// posx : current x position
-		// posy : current y position
-		// width : total width
-		// height : total height
-		constructor(posx,posy,width,height){
-			this.posx = posx;
-			this.posy = posy;
-			this.width = width;
-			this.height = height;
-			this.direction = "down";
-		}
-
-		// ctx,clear rect
-		clearRect(ctx,oneWidth,oneHeight){
-			const _this = this;
-			let clear = () => {
-
-				let endDistance = this.width - this.posx;
-				let nextClearWidth = endDistance > oneWidth ? oneWidth : endDistance;
-
-				ctx.clearRect(this.posx,this.posy,nextClearWidth,oneHeight);
-
-				if(this.posy > this.height){
-					this.direction = "up";
-					this.posx += oneWidth;
-				}
-				if(this.posy < 0){
-					this.direction = "down";
-					this.posx += oneWidth;
-				}
-
-				this.posy = this.direction === "down" ? this.posy + oneHeight : this.posy - oneHeight;
-				let animateResId = window.requestAnimationFrame(function(){
-					if(_this.posx < _this.width){
-						clear();
-					}else{
-						window.cancelAnimationFrame(animateResId);
-					}
-				})
-			}
-
-			clear();
-
-		}
-	}
-
-	// renderImg
-	cImg.onload = () => {
-		document.querySelector('.colorfulImg').style.display = "block";
-		renderDom(document.querySelector("#introSelf"),fontArr);
-
-		ctx.drawImage(cImg,0,0,canvasDomWidth,canvasDomHeight);
-		ctx.globalCompositeOperation = 'destination-out';
-
-		let clearWidth = document.body.clientWidth >= 1200 ? 0.62 : 0.635;
-		let clearRect1 = new clearRectOneByOne(0,0,Math.ceil(canvasDomWidth * clearWidth),canvasDomHeight);
-
-		clearRect1.clearRect(ctx,Math.ceil(canvasDomWidth * clearWidth) * 0.1,60);
-	}
-
-
-	
-	// showOrHide 1:show 0:hide
-	let showHideMenu = (showOrHide) => {
-		let menuContWidth = document.body.clientWidth >= 1200 ? Math.floor(0.28 * canvasDomWidth) : Math.floor(0.315 * canvasDomWidth);
-		if(showOrHide === 1){
-			$(".menuCont").width(menuContWidth);
-			$("#menuControl").removeClass('icon-menu');
-			$("#menuControl").addClass('icon-close');
-			$(".menuCont").slideDown();
-		}else{
-			$("#menuControl").removeClass('icon-close');
-			$("#menuControl").addClass('icon-menu');
-			$(".menuCont").slideUp();
-		}
-		
-	}
-
 	// evalution canvas
 	let evalutionRender = () => {
 		let evalutionCanvas = $("#evalutionCanvas");
@@ -378,11 +357,34 @@
 			oB.addBall(ball);
 		}
 	}
+	renderProgressBar(progressArr);
+	renderExperience(experienceArr);
+	renderProject(projectArr);
 	evalutionRender();
 
+	// --------------------------------------- render data end 
+	
+	
+	// showOrHide 1:show 0:hide
+	let showHideMenu = (showOrHide) => {
+		let menuContWidth = document.body.clientWidth >= 1200 ? Math.floor(0.28 * canvasDomWidth) : Math.floor(0.315 * canvasDomWidth);
+		if(showOrHide === 1){
+			$(".menuCont").width(menuContWidth);
+			$("#menuControl").removeClass('icon-menu');
+			$("#menuControl").addClass('icon-close');
+			$(".menuCont").slideDown();
+		}else{
+			$("#menuControl").removeClass('icon-close');
+			$("#menuControl").addClass('icon-menu');
+			$(".menuCont").slideUp();
+		}
+		
+	}
 
-	// event
-	$(window).resize(evalutionRender)
+	// --------------------------------------- event
+ 
+	$(window).resize(evalutionRender);
+
 	$(window).click(() => {
 		$(".scrollMenu ul").hide();
 	});
@@ -397,7 +399,6 @@
 		}
 		clickNum ++ ;
 	});
-
 
 	let clickLiFunc = (dom) => {
 		$(dom).click((e) => {
